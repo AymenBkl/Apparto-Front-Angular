@@ -1,0 +1,224 @@
+.login-title {
+    font: normal normal bold 36px/43px Roboto;
+    letter-spacing: 0px;
+    color: #004FD4;
+    width: 100%;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.form-login {
+    width: 100%;
+    margin-top: 60px;
+}
+
+.input-login {
+    height: 50px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border-radius: 10px !important;
+}
+
+::placeholder {
+    color:#B0B0B0;
+}
+
+:-ms-input-placeholder {
+    color:#B0B0B0;
+}
+
+::-ms-input-placeholder {
+    color:#B0B0B0;
+}
+
+.login-image {
+    width: 100%;
+    text-align: center;
+    padding-left: 30px;
+}
+
+.login-image img {
+    width: 100%;
+}
+
+.form-login button {
+    width: 131px;
+    height: 47px;
+    background: #015AE7 0% 0% no-repeat padding-box;
+    border-radius: 10px;
+    font: normal normal bold 16px/19px Roboto;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+}
+textarea {
+    height: auto !important;
+}
+
+.login-button-div {
+    width: 100%;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.login-col {
+    display: flex;
+    align-items: center;
+}
+
+.login-checkbox {
+    font: normal normal normal 16px/19px Roboto;
+    letter-spacing: 0px;
+    color: #2E2E2E;
+    display: inline-block;
+    width: 50%;
+    margin-top: 30px;
+}
+
+.login-forget-password {
+    width: 50%;
+    display: inline-block;
+    font: normal normal normal 16px/19px Roboto;
+    letter-spacing: 0px;
+    color: #2E2E2E;
+    text-align: right;
+}
+
+.login-forget-password a {
+    color: #2E2E2E;
+    text-decoration: none;
+    font: normal normal normal 13pt/19px Roboto;
+}
+
+.login-checkbox label {
+    padding-top: 3px;
+}
+
+.auth-login-register {
+    width: 100%;
+    margin-top: 30px;
+    text-align: center;
+    display: inline-block;
+    font: normal normal normal 16px/19px Roboto;
+    letter-spacing: 0px;
+    color: #2E2E2E;
+    margin-bottom: 50px;
+
+}
+
+.auth-login-register span {
+    display: inline-block;
+}
+
+.auth-login-register a {
+    display: inline-block;
+    color: #015AE7;
+}
+
+.addon-right {
+    width: 50px;
+    background: transparent;
+    color: #B0B0B0;
+    position: absolute;
+    right: 13px;
+    padding: 13px;
+    border: none;
+    top: 0px;
+    filter: invert(100%) sepia(0%) saturate(3362%) hue-rotate(259deg) brightness(75%) contrast(76%);
+}
+
+.input-group {
+    width: auto !important;
+    border-radius: 10px !important;
+    position: relative ;
+}
+
+.addon-right img {
+    width: 100%;
+    filter: invert(100%) sepia(0%) saturate(3362%) hue-rotate(259deg) brightness(75%) contrast(76%);
+}
+
+.addon-right img:hover {
+    cursor: pointer;
+}
+.input-group {
+    height: 80px;
+}
+.form-group {
+    height: 80px;
+    font: normal normal normal 13pt/19px Roboto;
+}
+
+small {
+    font: normal normal normal 16px/19px Roboto;
+    letter-spacing: 0px;
+}
+
+.error-border {
+    border-color:  #df4759;
+    width: 100% !important;
+
+}
+
+.error-border:focus {
+    border-color: #df4759;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem #df4759;
+    width: 100% !important;
+}
+
+
+@media screen and (max-width: 992px) {
+    .login-image img {
+        width: 70%;
+    }
+
+    .login-image {
+        padding-left: 0px;
+    }
+
+    .login-title {
+        font: normal normal bold 14pt/43px Roboto;
+    }
+
+    .login-forget-password {
+        font: normal normal normal 10pt/19px Roboto;
+    }
+
+    .login-forget-password a {
+        font: normal normal normal 10pt/19px Roboto;
+    }
+
+    .login-checkbox {
+        font: normal normal normal 10pt/19px Roboto;
+    }
+
+    .form-group {
+        font: normal normal normal 11pt/19px Roboto;
+    }
+
+    .login-checkbox label {
+        padding-top: 0px;
+    }
+
+    small {
+        font: normal normal normal 10pt/19px Roboto;
+        letter-spacing: 0px;
+    }
+
+    .form-login button {
+        width: 128px;
+        height: 42px;
+        font: normal normal bold 10pt/19px Roboto;
+    }
+
+    .auth-login-register {
+        font: normal normal normal 10pt/19px Roboto;
+    }
+    ::placeholder {
+        font: normal normal normal 11pt/19px Roboto;
+    }
+
+    .form-login {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}

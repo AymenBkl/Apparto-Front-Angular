@@ -1,0 +1,54 @@
+<div class="row pb-5 mb-4" *ngIf="users && users.length > 0">
+    <div class="input-group rounded">
+        <input type="search" class="form-control rounded" name="searchedUser" [(ngModel)]="searchedUser" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+        <span class="input-group-text border-0" id="search-addon">
+            <fa-icon [icon]="faSearch"></fa-icon>
+        </span>
+    </div>
+  <div class="col-lg-3 col-md-6 mb-4 mb-lg-0 mt-3" *ngFor="let user of users|searchUsers:searchedUser">
+    <!-- Card-->
+    <div class="card shadow-sm border-0 rounded">
+      <div class="card-body p-0"><img src="https://calepindh.typepad.fr/.a/6a00d83452375a69e201b7c7ab0f67970b-pi" alt="" class="w-100 card-img-top">
+        <div class="p-4">
+          <h5 class="mb-0">{{user.firstName}} {{user.lastName}}</h5>
+          <p class="small text-muted">{{user.role}}</p>
+          <ul class="social mb-0 list-inline mt-3">
+            <li class="list-inline-item m-0" *ngIf="!user.added"><a  class="social-link text-success" (click)="addUser(user,user._id)"><fa-icon [icon]="faAdd"></fa-icon></a></li>
+            <li class="list-inline-item m-0" *ngIf="user.added"><a  class="social-link text-danger" (click)="removeUser(user,user._id)"><fa-icon [icon]="faRemove"></fa-icon></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="add-user">
+  <li class="list-inline-item m-0" ><a class="social-link text-success" [routerLink]="['/auth/register']" [queryParams]="{newUser:true}"><fa-icon [icon]="faAdd"></fa-icon></a></li>
+</div>
+
+<ngx-spinner
+bdColor="rgba(51,51,51,0.8)"
+size="medium"
+color="#fff"
+type="ball-scale-multiple"
+>
+<p style="font-size: 20px; color: white">Please Wait</p>
+</ngx-spinner>
+
+
+<div class="position-fixed bottom-0 start-0 p-3" style="z-index: 11" *ngIf="canShowToast">
+    <div id="toastRequest" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <img src="../../../../assets/img/client-dashboard/succes.svg" class="rounded me-2" alt="..." *ngIf="apiResponse && apiResponse.code == 1200">
+        <img src="../../../../assets/img/client-dashboard/cancel.svg" class="rounded me-2" alt="..." *ngIf="apiResponse && apiResponse.code == 1001">
+        <img src="../../../../assets/img/client-dashboard/error.svg" class="rounded me-2" alt="..." *ngIf="apiResponse && apiResponse.code == 1000">
+        <strong class="me-auto" *ngIf="apiResponse && apiResponse.code == 1200">Success</strong>
+        <strong class="me-auto" *ngIf="apiResponse && apiResponse.code == 1000">Warning</strong>
+        <strong class="me-auto" *ngIf="apiResponse && apiResponse.code == 1001">Error</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" (click)='canShowToast = false'></button>
+      </div>
+      <div class="toast-body">
+        {{apiResponse.msg}}
+      </div>
+    </div>
+  </div>

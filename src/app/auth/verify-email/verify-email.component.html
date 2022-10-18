@@ -1,0 +1,53 @@
+<div class="container">
+    <div class="row" *ngIf="!hash || (hash && hash == '')">
+        <div class="col-12 col-lg-12">
+            <div class="verify-email-title">
+                <p>VERIFY EMAIL</p>
+            </div>
+            <div class="form-verify-email">
+                <p class="verify-email-big-text">
+                    Please Verify Your Email
+                </p>
+                <p class="verify-email-small-text" *ngIf="!emailSent">
+                    In order to access your dashboard you need to verify your email first
+                </p>
+                <p class="verify-email-small-text" *ngIf="emailSent">
+                    We sent an email please check your InBox. In case didn't receive any email try again.
+                </p>
+                <div class="verify-email-button-div" [disabled]="submitted" (click)="sendEmail()">
+                    <button type="submit" class="btn"> 
+                        <span *ngIf="!submitted">RESEND VERIFICATION EMAIL </span>
+                          <div class="spinner-border" role="status" *ngIf="submitted">
+                            <span class="visually-hidden">Loading...</span>
+                          </div> 
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-7 verify-email-col">
+            <div class="verify-email-image">
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="hash && hash != ''">
+        <app-verify-now [hash]="hash"></app-verify-now>
+    </div>
+</div>
+
+
+<button #sendSuccessModal type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#successSentModal" hidden>
+</button>
+
+<!-- Modal Success Sent -->
+<div  class="modal fade" id="successSentModal" data-bs-backdrop="true" data-bs-keyboard="false" tabindex="-1" aria-labelledby="successSentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeButton hidden></button>
+      <div class="modal-body">
+        <app-send-success (closeModal)="closeSuccessModal()"></app-send-success>
+      </div>
+      
+    </div>
+  </div>
+</div>
+

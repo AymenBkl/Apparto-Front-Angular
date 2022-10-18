@@ -1,0 +1,25 @@
+
+
+<div class="verify-now" >
+    <p class="error-verify-now" *ngIf="hash && hash != '' && apiResponse && apiResponse.code == 1001" data-aos="fade-up"> Couldn't Verify Your New Email </p>
+    <div class="guid-verify-now" *ngIf="hash && hash != '' && apiResponse && apiResponse.code == 1001" data-aos="fade-up">
+        <ul>
+            <li>Need to login with the prevouis email</li>
+            <li>Check your new email inbox</li>
+            <li>Click on verify new email</li>
+            <li>Use the same link we have sent you</li>
+            <li>Connection Problem. Wait and try Again</li>
+        </ul>
+    </div>
+</div>
+
+<ngx-spinner
+  name='spinnerNewEmail'
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Verifying New Email Please Wait</p>
+</ngx-spinner>
+

@@ -1,0 +1,58 @@
+.nav-holder {
+    background-image: linear-gradient(to right,#0043BE, #0168FF);
+}
+
+.footer-holder {
+    background-image: linear-gradient(to right,#0043BE, #0168FF);
+    margin-top: 30px;
+}
+
+.home-page {
+    overflow-x: hidden;
+}
+
+.sidenav {
+    height: 100%;
+    border-right: 3px solid #F3F3F8;
+    width: 415px;
+    padding-top: 50px;
+    flex-shrink: 0;
+    min-height: 600px;
+}
+
+hr.solid{
+    border-top: 2px solid #F3F3F8;
+}
+
+.container-box{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    flex-grow: 1;
+}
+
+.content {
+    padding-left: 20px;
+    margin: 0;
+}
+
+::ng-deep .content + * {
+    width: 100%;
+}
+@media only screen and (min-width: 768px) {
+    .sidenav {
+        width: 248px;
+    }
+}
+@media only screen and (min-width: 992px) {
+    .sidenav {
+        width: 300px;
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1430px) {
+    .sidenav {
+        width: 415px;
+    }
+}

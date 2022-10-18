@@ -1,0 +1,302 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { User } from '../interfaces/user';
+import { environment } from '../../environments/environment';
+import { Subscription } from 'rxjs';
+import { AuthResponse } from '../interfaces/response';
+import { StorageService } from './storage.service';
+import { Router } from '@angular/router';
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  user: User;
+  isAuthenticated: boolean = false;
+  updateUserSub: Subscription;
+  changePasswordSub: Subscription;
+  loginSubscription: Subscription;
+  postImageSub: Subscription;
+  constructor(private httpClient: HttpClient,
+    private storageService: StorageService,
+    private router: Router) { }
+
+
+
+  checkJWT(email: string) {
+    return new Promise((resolve, reject) => {
+      const token = this.storageService.getToken();
+      if (token) {
+        
+        this.httpClient.get<AuthResponse>(environment.baseUrl + 'auth/checkJWT')
+          .subscribe(response => {
+            
+            if (response.token === 'TOKEN VALID' && response.status === 200) {
+              if (response.user.email == email) {
+                this.setUserCredentials(response.user);
+                resolve(response.user);
+              }
+              else {
+                this.destroyUserCredentials();
+                resolve(false);
+              }
+            }
+            else {
+              this.destroyUserCredentials();
+              resolve(false);
+            }
+          }, err => {
+            
+            reject(err);
+            this.destroyUserCredentials();
+          });
+      }
+      else {
+        resolve(false);
+        this.destroyUserCredentials();
+      }
+    })
+  }
+
+  changePassword(oldPassword: string, newPassword: string) {
+    return new Promise((resolve, reject) => {
+      this.destroyChangePasswordSub();
+      this.changePasswordSub = this.httpClient.post<AuthResponse>(environment.baseUrl + 'auth/changepassword', { oldPassword: oldPassword, newPassword: newPassword })
+        .subscribe(response => {
+          resolve(response)
+        }, err => {
+          reject(err);
+        });
+
+    })
+  }
+
+  login(password: string, username: string) {
+    return new Promise((resolve, reject) => {
+      this.destroyLoginSub();
+      this.loginSubscription = this.httpClient.post<AuthResponse>(environment.baseUrl + 'auth/login', { password: password, email: username })
+        .subscribe(response => {
+          
+          if (response && response.status == 200) {
+            this.storageService.saveToken(response.msg);
+            this.setUserCredentials(response.user)
+            resolve(response);
+          }
+          else {
+            resolve(false);
+          }
+        }, err => {
+          
+          reject(err);
+        });
+
+    })
+  }
+
+  registerUser(user:User,newUserAdd: boolean = false){
+    return new Promise((resolve,reject) => {
+      let url = newUserAdd ? 'auth/registerwithfriend' : 'auth/register';
+      this.httpClient.post<AuthResponse>(environment.baseUrl + url,{user:user,newUserAdd:newUserAdd})
+        .subscribe((result) => {
+          
+          if (result && result.status == 201){
+            if (!newUserAdd){
+              this.storageService.saveToken(result.msg);
+              this.setUserCredentials(result.user);
+            }
+            
+            resolve(result);
+          }
+          else {
+            resolve(result);
+          }
+        },err => {
+          reject(err)
+        })
+    })
+  }
+
+  sendVerificationEmail(){
+    return new Promise((resolve,reject) => {
+      
+      
+        this.httpClient.get<AuthService>(environment.baseUrl + 'auth/sendverificationemail')
+          .subscribe(result => {
+            resolve(result);
+          },err => {
+            reject(err);
+          })
+
+    })
+    
+  }
+
+  sendVerificationUpdateEmail(){
+    return new Promise((resolve,reject) => {
+      
+      if (this.user){
+        this.httpClient.get<AuthService>(environment.baseUrl + 'auth/sendverificationupdateemail')
+          .subscribe(result => {
+            resolve(result);
+          },err => {
+            reject(err);
+          })
+      }
+      else {
+        
+        this.router.navigate(['/dashboard-client']);
+      }
+    })
+    
+  }
+
+  verifyEmail(hash:string) {
+    return new Promise((resolve,reject) => {
+      this.httpClient.get<AuthResponse>(environment.baseUrl + 'auth/verifyemail?hash=' + hash)
+        .subscribe(result => {
+          
+          resolve(result);
+        },err => {
+          reject(err);
+          
+        }) 
+    })
+  }
+
+  verifyNewEmail(hash:string) {
+    return new Promise((resolve,reject) => {
+      this.httpClient.get<AuthResponse>(environment.baseUrl + 'auth/verifynewemail?hash=' + hash)
+        .subscribe(result => {
+          
+          resolve(result);
+        },err => {
+          reject(err);
+          
+        }) 
+    })
+  }
+
+  sendResetPasswordEmail(email:string){
+    return new Promise((resolve,reject) => {
+      if (!this.isAuthenticated){
+      this.httpClient.get<AuthResponse>(environment.baseUrl + 'auth/sendresetpasswordemail?email=' + email)
+        .subscribe(result => {
+          
+          resolve(result);
+        },err => {
+          reject(err);
+          
+        }) 
+      }
+      else {
+        this.router.navigate(['/dashboard-client']);
+      }
+    })
+  
+  }
+
+  submitNewPassword(hash:string,password:string){
+    return new Promise((resolve,reject) => {
+      if (!this.isAuthenticated){
+      this.httpClient.post<AuthResponse>(environment.baseUrl + 'auth/resetpassword?hash=' + hash,{password:password})
+        .subscribe(result => {
+          
+          resolve(result);
+        },err => {
+          reject(err);
+          
+        }) 
+      }
+      else {
+        this.router.navigate(['/dashboard-client']);
+      }
+    })
+  }
+
+
+  updateUser(user: string, updateUser: User) {
+    return new Promise((resolve, reject) => {
+      this.destroyUserSub();
+      this.updateUserSub = this.httpClient.put<AuthResponse>(environment.baseUrl + 'auth/updateuser', { userId: user, updateUser: updateUser })
+        .subscribe(response => {
+          if (response && response.status == 200) {
+            resolve(true);
+          }
+          else {
+            resolve(false);
+          }
+        }, err => {
+          
+          reject(err);
+        });
+
+    })
+  }
+
+  updateEmail(newEmail:string){
+    return new Promise((resolve,reject) => {
+      this.httpClient.post<AuthResponse>(environment.baseUrl + 'auth/updateemail',{email:newEmail})
+        .subscribe((result) => {
+          resolve(result);
+        },err => {
+          reject(err);
+        })
+    })
+  }
+
+  destroyUserSub() {
+    if (this.updateUserSub) {
+      this.updateUserSub.unsubscribe();
+    }
+  }
+
+  destroyLoginSub() {
+    if (this.loginSubscription) {
+      this.loginSubscription.unsubscribe();
+    }
+  }
+
+  destroyPostImageSub() {
+    if (this.postImageSub) {
+      this.postImageSub.unsubscribe();
+    }
+  }
+
+  destroyChangePasswordSub() {
+    if (this.changePasswordSub) {
+      this.changePasswordSub.unsubscribe();
+    }
+  }
+
+  postImage(formData: FormData) {
+    return new Promise((resolve, reject) => {
+      this.destroyPostImageSub();
+      this.postImageSub = this.httpClient.post<AuthResponse>(environment.baseUrl + 'auth/postimage', formData)
+        .subscribe(response => {
+          
+          if (response.status === 200) {
+            this.setUserCredentials(response.user)
+            resolve(response.user);
+          }
+          else {
+            resolve(false);
+          }
+        }, err => {
+          
+          reject(err);
+        });
+    });
+  }
+
+  setUserCredentials(user: User) {
+    this.isAuthenticated = true;
+    this.user = user;
+    
+    this.storageService.saveUser(user);
+  }
+
+  destroyUserCredentials() {
+    this.isAuthenticated = false;
+    this.user = null;
+    this.storageService.removeToken();
+  }
+}

@@ -1,0 +1,10 @@
+<div (click)="changeRoute(item)" *ngFor="let item of list" class="sidenav-item" [class.sidenav-item-active]="route === item.title" [class.subList-active]="route == item.title && item.subList">
+    <fa-icon [icon]="item.icon"></fa-icon>
+    <div class="menus">
+        <span>{{item.title}}</span>
+        <div class="subList" *ngIf="route == item.title">
+            <span *ngFor="let subItem of item.subList" (click)="changeSubRoute(subItem,item)" [class.subroute-active]="subItem.title == subRoute" >{{subItem.title}}</span>
+        </div>
+    </div>
+    
+</div>

@@ -1,0 +1,93 @@
+<div class="container">
+    <div class="row setting-holder">
+        <div class="col-6 big-title" data-aos="fade-up">
+            <span>Account Settings</span>
+        </div>
+    </div>
+    <div class="row setting-holder">
+        
+        <div class="col-12">
+            <div class="col-12 card card-setting" *ngIf="user">
+                <div class="col-12 setting-holder-item">
+                    <div class="setting-title" data-aos="fade-up">
+                        <span>Login Email:</span>
+                    </div>
+                    <div class="setting-content" data-aos="fade-up">
+                        <span data-placement="right" title="{{user.email}}">{{user.email}}</span>
+                    </div>
+                    <div class="setting-new-email-content" *ngIf="user.newEmail && user.newEmail.email" data-aos="fade-up">
+                        <span data-placement="right" title="{{user.newEmail.email}}">({{user.newEmail.email}})</span>
+                    </div>
+                    <div class="setting-buttons" data-aos="fade-up">
+                        <span>Change Email</span>
+                    </div>
+                </div>
+                <div class="col-12 setting-holder-item">
+                    <div class="setting-title" data-aos="fade-up">
+                        <span>Full Name:</span>
+                    </div>
+                    <div class="setting-content" data-aos="fade-up">
+                        <span data-placement="right" title="{{user.firstName}} {{user.lastName}}">{{user.firstName}} {{user.lastName}}</span>
+                    </div>
+                </div>
+                <div class="col-12 setting-holder-item">
+                    <div class="setting-title" data-aos="fade-up">
+                        <span>Role</span>
+                    </div>
+                    <div class="setting-buttons settings-select"  data-aos="fade-up">
+                        <select class="form-select" name="role" (change)="selecteChanged($event.target.value)" [(ngModel)]="user.role">
+                            <option value="Guerrier">Guerrier</option>
+                            <option value="Alchimiste">Alchimiste</option>
+                            <option value="Sorcier">Sorcier</option>
+                            <option value="Espions">Espions</option>
+                            <option value="Enchanteur">Enchanteur</option>
+                          </select>
+                    </div>
+                </div>
+                <div class="col-12 setting-holder-item">
+                    <div class="setting-title" data-aos="fade-up">
+                        <span>Login Password:</span>
+                    </div>
+                    <div class="setting-buttons"  data-aos="fade-up">
+                        <span>Change Password</span>
+                    </div>
+                </div>
+                
+                
+             </div>  
+        </div>
+    </div>
+</div>
+
+
+
+<ngx-spinner
+bdColor="rgba(51,51,51,0.8)"
+size="medium"
+color="#fff"
+type="ball-scale-multiple"
+>
+<p style="font-size: 20px; color: white">Please Wait</p>
+</ngx-spinner>
+
+
+
+  
+
+
+  <div class="position-fixed bottom-0 start-0 p-3" style="z-index: 11" *ngIf="canShowToast">
+    <div id="toastRequest" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <img src="../../../../assets/img/client-dashboard/succes.svg" class="rounded me-2" alt="..." *ngIf="apiResponse && apiResponse.code == 1200">
+        <img src="../../../../assets/img/client-dashboard/cancel.svg" class="rounded me-2" alt="..." *ngIf="apiResponse && apiResponse.code == 1001">
+        <img src="../../../../assets/img/client-dashboard/error.svg" class="rounded me-2" alt="..." *ngIf="apiResponse && apiResponse.code == 1000">
+        <strong class="me-auto" *ngIf="apiResponse && apiResponse.code == 1200">Success</strong>
+        <strong class="me-auto" *ngIf="apiResponse && apiResponse.code == 1000">Warning</strong>
+        <strong class="me-auto" *ngIf="apiResponse && apiResponse.code == 1001">Error</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" (click)='canShowToast = false'></button>
+      </div>
+      <div class="toast-body">
+        {{apiResponse.msg}}
+      </div>
+    </div>
+  </div>

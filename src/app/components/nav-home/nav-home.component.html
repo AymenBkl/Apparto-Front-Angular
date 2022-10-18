@@ -1,0 +1,62 @@
+<div class="nav-holder">
+    <div class="logo"></div>
+    <div class="nav-btn-holder btn"><fa-icon [icon]="faList"></fa-icon></div>
+    <div class="option">
+      <div class="list" [class.shadow]="show_options">
+        <div class="head" (click)="show_option()">
+          <span>{{ selected_option }}</span
+          >&nbsp; Workspace
+          <fa-icon [icon]="faCaret"></fa-icon>
+        </div>
+        <div class="head-dropdown">
+          <div
+            *ngFor="let option of filterOptions()"
+            (click)="setOption(option)"
+            class="option-item"
+            [class.hide]="!show_options"
+          >
+            <span>{{ option }}</span
+            >&nbsp; Workspace
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="notifications">
+      <div
+        class="notification-list"
+        [class.bg-grey]="!show_notifications"
+        [class.shadow]="show_notifications"
+        (click)="show_notification()"
+      >
+        <div class="title">
+          <fa-icon [icon]="faBell"></fa-icon>
+          <div [class.hide]="!show_notifications">Notfications</div>
+        </div>
+        <div class="notif-drop" [class.hide]="!show_notifications">
+          <div *ngFor="let notification of notifications">{{ notification }}</div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="profile">
+      <div
+        class="profile-list"
+        [class.bg-profile]="!show_profile_items"
+        [class.shadow]="show_profile_items"
+        (click)="show_profile()"
+      >
+        <div class="title">
+          <div class="name" *ngIf="user">{{user.firstName}}</div>
+          <div class="image">
+            <div class="inner-image"></div>
+          </div>
+        </div>
+        <div class="profile-drop" [class.hide]="!show_profile_items">
+          <div>Profile</div>
+          <div [routerLink]="['/home/settings']">Settings</div>
+          <div (click)="logOut()">Logout</div>
+        </div>
+      </div>
+    </div>
+  </div>
