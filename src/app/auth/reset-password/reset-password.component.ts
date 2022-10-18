@@ -56,7 +56,7 @@ export class ResetPasswordComponent implements OnInit {
         else {
           this.validationErrors = {errcode:15000,errmsg:"Email don't exists"}
         }
-        
+        console.log(result);
       })
       .catch(err => {
         this.submitted = false;

@@ -42,7 +42,7 @@ export class FriendsComponent implements OnInit {
         }
       })
       .catch(err => {
-        
+        console.log(err);
         this.ngxSpinnerService.hide();
       })
   }

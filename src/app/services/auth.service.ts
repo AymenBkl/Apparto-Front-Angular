@@ -26,10 +26,10 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       const token = this.storageService.getToken();
       if (token) {
-        
+        console.log(token);
         this.httpClient.get<AuthResponse>(environment.baseUrl + 'auth/checkJWT')
           .subscribe(response => {
-            
+            console.log(response);
             if (response.token === 'TOKEN VALID' && response.status === 200) {
               if (response.user.email == email) {
                 this.setUserCredentials(response.user);
@@ -45,7 +45,7 @@ export class AuthService {
               resolve(false);
             }
           }, err => {
-            
+            console.log(err);
             reject(err);
             this.destroyUserCredentials();
           });
@@ -75,7 +75,7 @@ export class AuthService {
       this.destroyLoginSub();
       this.loginSubscription = this.httpClient.post<AuthResponse>(environment.baseUrl + 'auth/login', { password: password, email: username })
         .subscribe(response => {
-          
+          console.log(response);
           if (response && response.status == 200) {
             this.storageService.saveToken(response.msg);
             this.setUserCredentials(response.user)
@@ -85,7 +85,7 @@ export class AuthService {
             resolve(false);
           }
         }, err => {
-          
+          console.log(err);
           reject(err);
         });
 
@@ -117,7 +117,7 @@ export class AuthService {
 
   sendVerificationEmail(){
     return new Promise((resolve,reject) => {
-      
+      console.log('user',this.user);
       
         this.httpClient.get<AuthService>(environment.baseUrl + 'auth/sendverificationemail')
           .subscribe(result => {
@@ -132,7 +132,7 @@ export class AuthService {
 
   sendVerificationUpdateEmail(){
     return new Promise((resolve,reject) => {
-      
+      console.log('user',this.user);
       if (this.user){
         this.httpClient.get<AuthService>(environment.baseUrl + 'auth/sendverificationupdateemail')
           .subscribe(result => {
@@ -142,7 +142,7 @@ export class AuthService {
           })
       }
       else {
-        
+        console.log('wow');
         this.router.navigate(['/dashboard-client']);
       }
     })
@@ -153,11 +153,11 @@ export class AuthService {
     return new Promise((resolve,reject) => {
       this.httpClient.get<AuthResponse>(environment.baseUrl + 'auth/verifyemail?hash=' + hash)
         .subscribe(result => {
-          
+          console.log(result);
           resolve(result);
         },err => {
           reject(err);
-          
+          console.log(err);
         }) 
     })
   }
@@ -166,11 +166,11 @@ export class AuthService {
     return new Promise((resolve,reject) => {
       this.httpClient.get<AuthResponse>(environment.baseUrl + 'auth/verifynewemail?hash=' + hash)
         .subscribe(result => {
-          
+          console.log(result);
           resolve(result);
         },err => {
           reject(err);
-          
+          console.log(err);
         }) 
     })
   }
@@ -180,11 +180,11 @@ export class AuthService {
       if (!this.isAuthenticated){
       this.httpClient.get<AuthResponse>(environment.baseUrl + 'auth/sendresetpasswordemail?email=' + email)
         .subscribe(result => {
-          
+          console.log(result);
           resolve(result);
         },err => {
           reject(err);
-          
+          console.log(err);
         }) 
       }
       else {
@@ -199,11 +199,11 @@ export class AuthService {
       if (!this.isAuthenticated){
       this.httpClient.post<AuthResponse>(environment.baseUrl + 'auth/resetpassword?hash=' + hash,{password:password})
         .subscribe(result => {
-          
+          console.log(result);
           resolve(result);
         },err => {
           reject(err);
-          
+          console.log(err);
         }) 
       }
       else {
@@ -225,7 +225,7 @@ export class AuthService {
             resolve(false);
           }
         }, err => {
-          
+          console.log(err);
           reject(err);
         });
 
@@ -272,7 +272,7 @@ export class AuthService {
       this.destroyPostImageSub();
       this.postImageSub = this.httpClient.post<AuthResponse>(environment.baseUrl + 'auth/postimage', formData)
         .subscribe(response => {
-          
+          console.log(response);
           if (response.status === 200) {
             this.setUserCredentials(response.user)
             resolve(response.user);
@@ -281,7 +281,7 @@ export class AuthService {
             resolve(false);
           }
         }, err => {
-          
+          console.log(err);
           reject(err);
         });
     });
@@ -290,7 +290,7 @@ export class AuthService {
   setUserCredentials(user: User) {
     this.isAuthenticated = true;
     this.user = user;
-    
+    console.log(this.user);
     this.storageService.saveUser(user);
   }
 

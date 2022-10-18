@@ -29,7 +29,7 @@ export class SettingsComponent implements OnInit {
 
   getUser(){
     this.user = this.authService.user;
-    
+    console.log(this.user);
   }
 
   

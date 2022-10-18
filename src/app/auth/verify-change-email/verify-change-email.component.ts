@@ -39,7 +39,7 @@ export class VerifyChangeEmailComponent implements OnInit,AfterViewInit {
   async checkUser(){
     const user = this.storageService.getUser();
     const jwt = await this.authService.checkJWT(user.email);
-    
+    console.log(jwt);
     if (this.authService.user && this.authService.user.emailVerified && this.authService.user.status == 'active'){
       this.getHash();
     }
@@ -64,7 +64,7 @@ export class VerifyChangeEmailComponent implements OnInit,AfterViewInit {
           }
         })
         .catch(err => {
-          
+          console.log(err);
           this.ngxSpinnerService.hide('spinnerNewEmail');
           this.apiResponse = {msg:'',code:1001};
         })

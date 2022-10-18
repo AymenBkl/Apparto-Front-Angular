@@ -26,7 +26,7 @@ export class NavComponent implements OnInit,AfterViewInit {
 
   ngAfterViewInit(): void {
     this.landingPageService.initButtons(this.errorModalButton,this.errorCloseModalButton);
-    
+    console.log('called');
 
   }
 
@@ -46,7 +46,7 @@ export class NavComponent implements OnInit,AfterViewInit {
 
   checkUser(){
     this.isLoggedIn = this.authService.isAuthenticated;
-    
+    console.log(this.isLoggedIn,this.authService.isAuthenticated);
   }
 
 

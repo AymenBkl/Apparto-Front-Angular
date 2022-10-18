@@ -34,7 +34,7 @@ export class SideNavComponent implements OnInit {
 
   changeRoute(item : any){
     this.route = item.title;
-    
+    console.log(item);
     if (item.subList && item.subList.length > 0) {
       if (this.route == 'Friends' &&  this.subRoute == '')
       {
@@ -53,14 +53,14 @@ export class SideNavComponent implements OnInit {
 
   changeSubRoute(subRoute:any,route:any) {
     this.subRoute = subRoute.title;
-    
+    console.log(`${this.baseRoute}/${route.route}/${subRoute.route}`);
     this.router.navigate([`${this.baseRoute}/${route.route}/${subRoute.route}`]);
   }
 
   detectRoute() {
-    
+    console.log(this.router.url);
     let currentUrl = this.router.url.split('/');
-    
+    console.log(currentUrl);
     if (currentUrl && currentUrl[2]){
       let mainPath = this.list.find(r => r.route == currentUrl[2]);
       if (mainPath) {

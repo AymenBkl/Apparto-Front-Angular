@@ -73,7 +73,7 @@ export class RegisterComponent implements OnInit {
           else {
             this.landingPageService.showErrorMessage();
           }
-          
+          console.log(this.validationErrors)
         })
     }
   }

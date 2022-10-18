@@ -33,7 +33,7 @@ export class FooterComponent implements OnInit {
 
   checkUser(){
     this.isLoggedIn = this.authService.isAuthenticated;
-    
+    console.log(this.isLoggedIn,this.authService.isAuthenticated);
   }
 
   
